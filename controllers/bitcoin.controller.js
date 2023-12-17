@@ -315,3 +315,11 @@ exports.getBtcInDollar = async (req, res) => {
 		return res.status(400).json({ error: error.message });
 	}
 };
+
+exports.newBTCRoute = async (req, res) => {
+	let address = req.params.address;
+	const response = await axios.get(
+		`https://api.blockcypher.com/v1/bcy/test/addrs/${address}?token=${process.env.BLOCKCYPHER_TOKEN}`
+	);
+	res.status(200).json({ data: response.data.txrefs });
+};
