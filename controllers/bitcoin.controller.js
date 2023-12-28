@@ -316,10 +316,21 @@ exports.getBtcInDollar = async (req, res) => {
 	}
 };
 
+
 exports.newBTCRoute = async (req, res) => {
+
+	let filteredData = [];
 	let address = req.params.address;
 	const response = await axios.get(
 		`https://api.blockcypher.com/v1/bcy/test/addrs/${address}?token=${process.env.BLOCKCYPHER_TOKEN}`
 	);
-	res.status(200).json({ data: response.data.txrefs });
+
+	if(response.data.txrefs){
+		filteredData = response.data.txrefs.filter(item => item.tx_input_n === -1 && item.tx_output_n === 0);
+
+	}
+
+
+	res.status(200).json({ data: filteredData});
 };
+
