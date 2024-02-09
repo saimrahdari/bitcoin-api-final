@@ -202,6 +202,7 @@ exports.btcCheckBalanceMiddleWare = async (req, res, next) => {
 		return res.status(400).json({ error: 'All fields are required' });
 	}
 };
+
 /**
  *
  * My address
@@ -219,6 +220,7 @@ exports.btcCheckBalanceMiddleWare = async (req, res, next) => {
   wif: 'Buq6dztFxRvSvtDTUkRqkBFXgGbtP2HNVEmB99dbzwRXbJPjjZu6'
 }
  **/
+
 exports.getTestBTC = async (req, res) => {
 	const { walletAddress } = req.body;
 
