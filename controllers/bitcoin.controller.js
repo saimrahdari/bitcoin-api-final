@@ -49,7 +49,7 @@ exports.createBtcWallet = async (req, res) => {
 exports.createBTCtestnetWallet = async (req, res) => {
 	try {
 		const walletsAPi = await axios.post(
-			`${process.env.BLOCKCYPHER_URL}addrs?token=${process.env.BLOCKCYPHER_TOKEN}`
+			`https://api.blockcypher.com/v1/btc/main/addrs?token=${process.env.BLOCKCYPHER_TOKEN}`
 		);
 		const walletDetail = walletsAPi.data;
 
@@ -103,7 +103,7 @@ const estimateFeeForBTCTransaction = async (
 	};
 	try {
 		const transactionDetail = await axios.post(
-			`${process.env.BLOCKCYPHER_URL}txs/new?token=${process.env.BLOCKCYPHER_TOKEN}`,
+			`https://api.blockcypher.com/v1/btc/main/txs/new?token=${process.env.BLOCKCYPHER_TOKEN}`,
 			JSON.stringify(newtx)
 		);
 		const transactionData = transactionDetail.data;
@@ -138,7 +138,7 @@ const sendBtcTransaction = async (
 		};
 
 		const transactionDetail = await axios.post(
-			`${process.env.BLOCKCYPHER_URL}txs/new?token=${process.env.BLOCKCYPHER_TOKEN}`,
+			`https://api.blockcypher.com/v1/btc/main/txs/new?token=${process.env.BLOCKCYPHER_TOKEN}`,
 			JSON.stringify(newtx)
 		);
 		const tmptx = transactionDetail.data;
@@ -152,7 +152,7 @@ const sendBtcTransaction = async (
 		});
 
 		const finalTransaction = await axios.post(
-			`${process.env.BLOCKCYPHER_URL}txs/send?token=${process.env.BLOCKCYPHER_TOKEN}`,
+			`https://api.blockcypher.com/v1/btc/main/txs/send?token=${process.env.BLOCKCYPHER_TOKEN}`,
 			JSON.stringify(tmptx)
 		);
 
@@ -174,8 +174,10 @@ exports.btcCheckBalanceMiddleWare = async (req, res, next) => {
 	if (fromAddress && amount) {
 		try {
 			const checkBal = await axios.get(
-				`${process.env.BLOCKCYPHER_URL}addrs/${fromAddress}/balance?token=${process.env.BLOCKCYPHER_TOKEN}`
+				`https://api.blockcypher.com/v1/btc/main/addrs/${fromAddress}/balance?token=${process.env.BLOCKCYPHER_TOKEN}`
 			);
+
+			console.log("Check Balance" + checkBal)
 			const balData = checkBal.data;
 			const balance = balData.final_balance;
 			const balInBTC = balance / satoshi;
@@ -245,7 +247,7 @@ exports.validateBitcoinAddress = async (req, res, next) => {
 	if (toAddress) {
 		axios
 			.get(
-				`${process.env.BLOCKCYPHER_URL}addrs/${toAddress}/balance?token=${process.env.BLOCKCYPHER_TOKEN}`
+				`https://api.blockcypher.com/v1/btc/main/addrs/${toAddress}/balance?token=${process.env.BLOCKCYPHER_TOKEN}`
 			)
 			.then(responce => {
 				return next();
@@ -266,7 +268,7 @@ exports.getBTCBalance = async (req, res) => {
 		let balanceInDollar = 0.0;
 		try {
 			const checkBal = await axios.get(
-				`${process.env.BLOCKCYPHER_URL}addrs/${walletAddress}/balance?token=${process.env.BLOCKCYPHER_TOKEN}`
+				`https://api.blockcypher.com/v1/btc/main/addrs/${walletAddress}/balance?token=${process.env.BLOCKCYPHER_TOKEN}`
 			);
 			const balData = checkBal.data;
 			const balance = balData.final_balance;
