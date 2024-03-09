@@ -326,7 +326,7 @@ exports.newBTCRoute = async (req, res) => {
 	let filteredData = [];
 	let address = req.params.address;
 	const response = await axios.get(
-		`https://api.blockcypher.com/v1/bcy/test/addrs/${address}?token=${process.env.BLOCKCYPHER_TOKEN}`
+		`https://api.blockcypher.com/v1/btc/main/addrs/${address}?token=${process.env.BLOCKCYPHER_TOKEN}`
 	);
 
 	if(response.data.txrefs){
